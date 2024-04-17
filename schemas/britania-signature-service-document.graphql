@@ -1,0 +1,802 @@
+type Query {
+  """
+  รายการคูปองบริการทั้งหมด ของผู้ใช้งาน
+  """
+  mySignatureServiceCouponByUnitId(
+    """
+    ID ของห้องที่ต้องการดูรายการคูปองบริการ
+    """
+    unitId: String!
+  ): [signatureServiceCoupon]
+
+  """
+  รายการคูปองบริการที่หมดอายุ ของผู้ใช้งาน
+  """
+  mySignatureServiceCouponExpiredByUnitId(
+    """
+    ID ของห้องที่ต้องการดูรายการคูปองบริการที่หมดอายุ
+    """
+    unitId: String!
+  ): [signatureServiceCoupon]
+
+  """
+  คูปองบริการ ด้วย ID ของคูปองบริการ
+  """
+  getSignatureServiceCouponById(
+    """
+    ID ของคูปองบริการ
+    """
+    id: String!
+  ): signatureServiceCoupon
+
+  """
+  รายการช่วงเวลาที่สามารถใช้บริการได้
+  """
+  getSignatureServiceTimeOptions: [signatureServiceTimeOptions]
+
+  """
+  รายการใบสั่งบริการ ของผู้ใช้งาน ด้วย Unit ID ที่ส่งเข้ามา
+  """
+  mySignatureServiceTaskByUnitId(
+    """
+    ID ของห้องที่ต้องการดูรายการใบสั่งบริการ
+    """
+    unitId: String!
+  ): [signatureServiceTask]
+
+  """
+  รายการคูปองบริการ ด้วย ID
+  """
+  getSignatureServiceTaskById(
+    """
+    ID ของใบสั่งบริการ
+    """
+    id: String!
+  ): signatureServiceTask
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+"""
+รายการคูปองบริการ
+"""
+type signatureServiceCoupon {
+  """
+  รหัสคูปอง (UUID)
+  """
+  id: ID!
+
+  """
+  รหัสคูปอง
+  """
+  couponCode: String!
+
+  """
+  หมายเลขสมาชิก หากมี
+  """
+  memberId: String
+
+  """
+  หมายเลขห้อง หากมี
+  """
+  unitId: String
+
+  """
+  จำนวนคูปองทั้งหมด
+  """
+  quantity: Int!
+
+  """
+  จำนวนคูปองที่ใช้งาน
+  """
+  used: Int!
+
+  """
+  วันหมดอายุ
+  """
+  expiryDate: DateTime
+
+  """
+  ประเภทบริการ (UUID)
+  """
+  signatureServiceTypeId: ID!
+
+  """
+  ผู้สร้าง
+  """
+  createdBy: String!
+
+  """
+  ผู้แก้ไขล่าสุด
+  """
+  updatedBy: String!
+
+  """
+  วันที่สร้าง
+  """
+  createdAt: DateTime!
+
+  """
+  วันที่แก้ไขล่าสุด
+  """
+  updatedAt: DateTime!
+
+  """
+  ประเภทบริการ
+  """
+  serviceType: signatureServiceType!
+
+  """
+  หมายเลขห้อง
+  """
+  unit: rmsUnitSignatureService
+
+  """
+  รายการจองบริการ
+  """
+  serviceTasks: [signatureServiceTask]
+}
+
+"""
+ประเภทบริการ
+"""
+type signatureServiceType {
+  id: ID!
+
+  """
+  ประเภทงาน
+  """
+  jobType: signatureServiceTypeToJobType!
+
+  """
+  ชื่อประเภทบริการ ภาษาอังกฤษ
+  """
+  nameThai: String!
+
+  """
+  ชื่อประเภทบริการ ภาษาอังกฤษ
+  """
+  nameEng: String!
+
+  """
+  รายละเอียดเพิ่มเติม ภาษาไทย
+  """
+  descriptionThai: String
+
+  """
+  รายละเอียดเพิ่มเติม ภาษาอังกฤษ
+  """
+  descriptionEng: String
+
+  """
+  สถานะการใช้งาน
+  """
+  active: Boolean!
+
+  """
+  ผู้สร้าง
+  """
+  createdBy: String!
+
+  """
+  ผู้สร้าง
+  """
+  updatedBy: String!
+
+  """
+  วันที่สร้าง
+  """
+  createdAt: DateTime!
+
+  """
+  วันที่แก้ไขล่าสุด
+  """
+  updatedAt: DateTime!
+
+  """
+  คูปองบริการ
+  """
+  serviceCoupons: [signatureServiceCoupon!]!
+
+  """
+  รายชื่อพนักงาน
+  """
+  operatingStaffs: [signatureServiceOperatingStaff!]!
+}
+
+"""
+ประเภทงาน
+"""
+enum signatureServiceTypeToJobType {
+  """
+  ทำความสะอาด
+  """
+  Cleaning
+
+  """
+  ตรวจสุขภาพบ้าน
+  """
+  HomeHealthCheck
+
+  """
+  ดูแลสวน
+  """
+  Garden
+}
+
+"""
+รายละเอียดพนักงานทำงานบริการ
+"""
+type signatureServiceOperatingStaff {
+  """
+  รหัสพนักงาน (UUID)
+  """
+  id: ID!
+
+  """
+  รหัสพนักงาน
+  """
+  employeeId: String
+
+  """
+  สถานะการทำงาน
+  """
+  status: signatureServiceOperatingStaffStatus!
+
+  """
+  ประเภทงาน
+  """
+  signatureServiceTypeId: String!
+
+  """
+  ชื่อ
+  """
+  firstName: String
+
+  """
+  นามสกุล
+  """
+  lastName: String
+
+  """
+  ชื่อเล่น
+  """
+  nickname: String
+
+  """
+  เบอร์โทรศัพท์
+  """
+  telephone: String
+
+  """
+  รูปภาพพนักงาน
+  """
+  image: String
+
+  """
+  เป็นหัวหน้างาน
+  """
+  isLeader: Boolean!
+
+  """
+  สถานะการใช้งาน
+  """
+  active: Boolean!
+
+  """
+  ผู้สร้าง
+  """
+  createdBy: String!
+
+  """
+  ผู้แก้ไขล่าสุด
+  """
+  updatedBy: String!
+
+  """
+  วันที่สร้าง
+  """
+  createdAt: DateTime!
+
+  """
+  วันที่แก้ไขล่าสุด
+  """
+  updatedAt: DateTime!
+
+  """
+  ชื่อ นามสกุล
+  """
+  fullName: String!
+
+  """
+  ประเภทบริการ
+  """
+  serviceType: signatureServiceType!
+
+  """
+  ข้อมูลรายการบริการ
+  """
+  serviceTasks: [signatureServiceTask!]!
+}
+
+"""
+สถานะการทำงาน
+"""
+enum signatureServiceOperatingStaffStatus {
+  """
+  เต็มเวลา
+  """
+  FullTime
+
+  """
+  นอกเวลา
+  """
+  PartTime
+
+  """
+  สัญญาจ้าง
+  """
+  Contract
+}
+
+"""
+รายละเอียดการจองบริการ
+"""
+type signatureServiceTask {
+  """
+  รหัสการจองบริการ (UUID)
+  """
+  id: ID!
+
+  """
+  เลขที่ใบสั่งบริการ
+  """
+  serviceNumber: String!
+
+  """
+  ชื่อ
+  """
+  customerFirstName: String!
+
+  """
+  นามสกุล
+  """
+  customerLastName: String!
+
+  """
+  เบอร์โทรศัพท์ที่ต้องการใช้บริการ
+  """
+  telephone: String!
+
+  """
+  ที่อยู่ที่ต้องการใช้บริการ
+  """
+  customerAddress: String
+
+  """
+  วันที่ต้องการใช้บริการ
+  """
+  serviceDate: DateTime!
+
+  """
+  วันที่เริ่มใช้บริการ
+  """
+  serviceDateStart: DateTime!
+
+  """
+  วันที่สิ้นสุดใช้บริการ
+  """
+  serviceDateEnd: DateTime!
+
+  """
+  ช่วงเวลาที่ต้องการใช้บริการ
+  """
+  serviceTime: String!
+
+  """
+  ช่วงเวลาที่ต้องการใช้บริการ (ภาษาไทย)
+  """
+  serviceTimeNameThai: String!
+
+  """
+  ช่วงเวลาที่ต้องการใช้บริการ (ภาษาอังกฤษ)
+  """
+  serviceTimeNameEng: String!
+
+  """
+  ความต้องการเพิ่มเติม
+  """
+  additionalInfo: String
+
+  """
+  สถานะของการจองบริการ
+  """
+  status: signatureServiceTaskStatus!
+
+  """
+  แหล่งที่มาของการจองบริการ
+  """
+  source: String
+
+  """
+  หมายเหตุ
+  """
+  description: String
+
+  """
+  หมายเหตุ
+  """
+  cancelReason: String
+
+  """
+  ชื่อ-นามสกุล
+  """
+  customerName: String!
+
+  """
+  ข้อมูลคูปองที่ใช้ในการจองบริการ
+  """
+  serviceCoupons: [signatureServiceCoupon!]!
+
+  """
+  ข้อมูลบุคลากรที่ให้บริการ
+  """
+  operatingStaffs: [signatureServiceOperatingStaff]
+
+  """
+  รายละเอียดการจองบริการ
+  """
+  serviceTaskDetails: [signatureServiceTaskDetail]
+}
+
+"""
+สถานะของการจองบริการ
+"""
+enum signatureServiceTaskStatus {
+  """
+  กำลังรอดำเนินการ
+  """
+  Pending
+
+  """
+  จ่ายงาน
+  """
+  Assigned
+
+  """
+  เสร็จสิ้น
+  """
+  Success
+
+  """
+  ปิดงาน
+  """
+  Closed
+
+  """
+  ยกเลิก
+  """
+  Cancelled
+}
+
+"""
+รายละเอียดการงานแต่ละงาน
+"""
+type signatureServiceTaskDetail {
+  """
+  รหัสงาน (UUID)
+  """
+  id: ID!
+
+  """
+  รหัสงาน (UUID)
+  """
+  signatureServiceTaskId: String!
+
+  """
+  รหัสพนักงานที่รับผิดชอบ (UUID)
+  """
+  signatureServiceCouponId: String!
+
+  """
+  สถานะการจ่ายงาน
+  """
+  status: SignatureServiceTaskDetailStatus!
+
+  """
+  ลำดับการจ่ายงาน
+  """
+  used: Int!
+
+  """
+  รายละเอียดงาน
+  """
+  serviceTask: signatureServiceTask
+
+  """
+  รายละเอียดคูปอง
+  """
+  serviceCoupon: signatureServiceCoupon
+
+  """
+  รายละเอียดพนักงานที่รับผิดชอบ
+  """
+  operatingStaffs: [signatureServiceOperatingStaff]
+
+  """
+  รายละเอียดการจ่ายงาน
+  """
+  assignment: signatureServiceTaskDetailAssignment
+}
+
+"""
+สถานะการงานแต่ละงาน
+"""
+enum SignatureServiceTaskDetailStatus {
+  """
+  กำลังรอดำเนินการ
+  """
+  Pending
+
+  """
+  จ่ายงาน
+  """
+  Assigned
+
+  """
+  เสร็จสิ้น
+  """
+  Success
+
+  """
+  ยกเลิก
+  """
+  Cancelled
+}
+
+"""
+รายละเอียดการจ่ายงานให้พนักงาน
+"""
+type signatureServiceTaskDetailAssignment {
+  """
+  รหัสการจ่ายงาน (UUID)
+  """
+  id: ID!
+
+  """
+  รหัสงาน (UUID)
+  """
+  taskDetailId: ID!
+
+  """
+  รหัสพนักงานที่รับผิดชอบ (UUID)
+  """
+  operatingStaffId: ID!
+
+  """
+  รายละเอียดพนักงานที่รับผิดชอบ
+  """
+  operatingStaffs: [signatureServiceOperatingStaff]
+
+  """
+  รายละเอียดคูปอง
+  """
+  serviceCoupon: signatureServiceCoupon
+
+  """
+  รายละเอียดการตรวจสอบงาน
+  """
+  seviceTaskDetaiCheckList: [signatureServiceTaskDetailCheckList]
+}
+
+"""
+รายละเอียดการตรวจสอบงาน
+"""
+type signatureServiceTaskDetailCheckList {
+  """
+  รหัสรายการตรวจสอบงาน (UUID)
+  """
+  title: String!
+
+  """
+  สถานะการตรวจสอบ
+  """
+  isDone: Boolean!
+
+  """
+  รายละเอียด
+  """
+  detail: String
+}
+
+"""
+รายละเอียดห้องที่เกี่ยวข้องกับโครงการ
+"""
+type rmsUnitSignatureService {
+  """
+  รหัสห้อง (UUID)
+  """
+  id: String!
+
+  """
+  หมายเลขห้อง
+  """
+  unitNumber: String!
+
+  """
+  หมายเลขบ้าน
+  """
+  houseNumber: String!
+
+  """
+  รหัสโครงการ
+  """
+  projectId: String!
+
+  """
+  รายละเอียดโครงการ
+  """
+  project: rmsProjectSignatureService
+}
+
+"""
+รายการโครงการที่เกี่ยวข้องกับห้อง
+"""
+type rmsProjectSignatureService {
+  """
+  รหัสโครงการ
+  """
+  id: String!
+
+  """
+  ชื่อโครงการ
+  """
+  name: String!
+
+  """
+  ชื่อโครงการ (ภาษาอังกฤษ)
+  """
+  nameEng: String!
+}
+
+"""
+รายการเวลาที่สามารถเลือกได้ ในการจองบริการ
+"""
+type signatureServiceTimeOptions {
+  """
+  รหัสเวลา
+  """
+  id: String!
+
+  """
+  รหัสเวลา ใช้เป็นค่า value ใน select
+  """
+  value: String!
+
+  """
+  ชื่อเวลา (ภาษาไทย)
+  """
+  nameThai: String!
+
+  """
+  ชื่อเวลา (ภาษาอังกฤษ)
+  """
+  nameEng: String!
+}
+
+type Mutation {
+  createSignatureServiceSatisfaction(
+    """
+    คำแนะนำเพิ่มเติม
+    """
+    suggestion: String!
+
+    """
+    คะแนนที่ให้ (1-5)
+    """
+    score: Int! = 1
+
+    """
+    ID ของ Task ที่ต้องการให้คะแนน
+    """
+    taskId: String!
+  ): signatureServiceSatisfaction!
+
+  """
+  สร้างใบสั่งบริการ
+  """
+  createSignatureServiceTask(
+    """
+    รหัสคูปอง
+    """
+    signatureServiceCouponIds: [String]
+
+    """
+    ความต้องการเพิ่มเติม
+    """
+    additionalInfo: String
+
+    """
+    ช่วงเวลาที่ต้องการใช้บริการ
+    """
+    serviceTime: String! = "0900-1200"
+
+    """
+    วันที่ต้องการใช้บริการ
+    """
+    serviceDate: DateTime!
+
+    """
+    ที่อยู่ที่ต้องการใช้บริการ
+    """
+    customerAddress: String
+
+    """
+    นามสกุล
+    """
+    customerLastName: String!
+
+    """
+    ชื่อ
+    """
+    customerFirstName: String!
+
+    """
+    เบอร์โทรศัพท์ติดต่อ
+    """
+    telephone: String!
+  ): signatureServiceTask!
+}
+
+"""
+รายละเอียดความพึงพอใจของบริการ
+"""
+type signatureServiceSatisfaction {
+  """
+  รหัสความพึงพอใจ (UUID)
+  """
+  id: ID!
+
+  """
+  รหัสการจองบริการ (UUID)
+  """
+  signatureServiceTaskId: String!
+
+  """
+  คะแนน
+  """
+  score: Int!
+
+  """
+  หมายเหตุ
+  """
+  suggestion: String!
+
+  """
+  ผู้สร้าง
+  """
+  createdBy: String!
+
+  """
+  ผู้แก้ไขล่าสุด
+  """
+  updatedBy: String!
+
+  """
+  วันที่สร้าง
+  """
+  createdAt: DateTime!
+
+  """
+  วันที่แก้ไขล่าสุด
+  """
+  updatedAt: DateTime!
+
+  """
+  รายการจองบริการ
+  """
+  serviceTasks: signatureServiceTask!
+}
