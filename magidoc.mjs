@@ -22,7 +22,7 @@ export default {
     template: "carbon-multi-page",
     staticAssets: path.join(__dirname, "/assets"),
     options: {
-      siteRoot: "/demo-magidoc",
+      siteRoot: "/britania-signature-service-document",
       appFavicon:
         "https://origin-public-asset.s3.ap-southeast-1.amazonaws.com/origin-assets/favicon.ico",
       appLogo:
