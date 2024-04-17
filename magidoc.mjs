@@ -65,6 +65,56 @@ To do so, you will need to provide an [API Key](/introduction/authentication) in
             },
           ],
         },
+        {
+          title: "Examples",
+          content: [
+            {
+              title: "GraphQL Request",
+              content: markdown`
+# 📚 Example
+
+## 📦 Installation
+
+<br>
+
+~~~bash
+pnpm add graphql-request
+~~~
+
+<br>
+
+## 📝 Usage
+
+<br>
+
+~~~javascript
+import { GraphQLClient } from "graphql-request";
+
+const client = new GraphQLClient("https://serviceapi.myorigin.net/graphql", {
+  headers: {
+    Authorization: "Bearer [Token]",
+    "x-user": "userId",
+    "x-member": "memberId",
+  },
+});
+
+const query = \`query {
+  example {
+    id
+  }
+}\`;
+
+async function main() {
+  const data = await client.request(query);
+  console.log(data);
+}
+
+main().catch(console.error);
+~~~
+              `,
+            },
+          ],
+        },
       ],
     },
   },
