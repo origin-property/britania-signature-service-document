@@ -1,6 +1,6 @@
 type Query {
   """
-  รายการคูปองบริการทั้งหมด ของผู้ใช้งาน
+  ค้นหารายการคูปองบริการทั้งหมด
   """
   mySignatureServiceCouponByUnitId(
     """
@@ -10,7 +10,7 @@ type Query {
   ): [signatureServiceCoupon]
 
   """
-  รายการคูปองบริการที่หมดอายุ ของผู้ใช้งาน
+  ค้นหารายการคูปองบริการที่หมดอายุ
   """
   mySignatureServiceCouponExpiredByUnitId(
     """
@@ -20,7 +20,7 @@ type Query {
   ): [signatureServiceCoupon]
 
   """
-  คูปองบริการ ด้วย ID ของคูปองบริการ
+  ค้นหาคูปองบริการ
   """
   getSignatureServiceCouponById(
     """
@@ -35,21 +35,21 @@ type Query {
   getSignatureServiceTimeOptions: [signatureServiceTimeOptions]
 
   """
-  รายการใบสั่งบริการ ของผู้ใช้งาน ด้วย Unit ID ที่ส่งเข้ามา
+  รายการบริการที่สามารถจองได้ทั้งหมด
   """
   mySignatureServiceTaskByUnitId(
     """
-    ID ของห้องที่ต้องการดูรายการใบสั่งบริการ
+    ID ของห้องที่ต้องการดูรายการของบริการที่จะจอง
     """
     unitId: String!
   ): [signatureServiceTask]
 
   """
-  รายการคูปองบริการ ด้วย ID
+  รายการบริการที่สามารถจองได้
   """
   getSignatureServiceTaskById(
     """
-    ID ของใบสั่งบริการ
+    ID ของบริการที่จะจอง
     """
     id: String!
   ): signatureServiceTask
@@ -57,6 +57,8 @@ type Query {
 
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
+
+For example: 2018-01-23T10:15:30.000Z
 """
 scalar DateTime
 
@@ -492,7 +494,7 @@ type signatureServiceTaskDetail {
   id: ID!
 
   """
-  รหัสงาน (UUID)
+  รหัสงานบริการ (UUID)
   """
   signatureServiceTaskId: String!
 
@@ -567,7 +569,7 @@ type signatureServiceTaskDetailAssignment {
   id: ID!
 
   """
-  รหัสงาน (UUID)
+  รหัสงานบริการ (UUID)
   """
   taskDetailId: ID!
 
@@ -690,7 +692,7 @@ type signatureServiceTimeOptions {
 type Mutation {
   createSignatureServiceSatisfaction(
     """
-    คำแนะนำเพิ่มเติม
+    คำแนะนำเพิ่มเติม หากมี
     """
     suggestion: String!
 

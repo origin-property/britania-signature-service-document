@@ -71,7 +71,7 @@ To do so, you will need to provide an [API Key](/introduction/authentication) in
             {
               title: "GraphQL Request",
               content: markdown`
-# 📚 Example
+# GraphQL Request
 
 ## 📦 Installation
 
@@ -110,6 +110,32 @@ async function main() {
 }
 
 main().catch(console.error);
+~~~
+              `,
+            },
+            {
+              title: "CURL Request",
+              content: markdown`
+# CURL Request
+
+<br>
+
+## 📝 Usage
+
+<br>
+
+~~~bash
+curl --location --request POST 'https://serviceapi.myorigin.net/graphql' \
+--header 'Authorization: Bearer [Token]' \
+--header 'x-user: userId' \
+--header 'x-member: memberId' \
+--data-raw '{
+  "query": "query {
+    example {
+      id
+    }
+  }"
+}'
 ~~~
               `,
             },
